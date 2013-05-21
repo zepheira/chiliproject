@@ -22,7 +22,16 @@
                   %>
 
 		<div id="users">
-			<%= principals_check_box_tags 'user_ids[]', users %>
+        <% users.each do |u| -%>
+          <label style="display: block;"><%= check_box_tag 'user_ids[]', u.id, false %> <%= h u %>
+          <% w = Watcher.find(:first, :conditions => ["user_id = ?", u.id])
+             if w.respond_to?("watching_count") -%>
+               (<%= w.watching_count(true) %> / <%= w.watching_count(false) %>)
+          <% else -%>
+               (none)
+          <% end -%>
+          </label>
+        <% end -%>
 		</div>
 
 		<p><%= submit_tag l(:button_add) %>

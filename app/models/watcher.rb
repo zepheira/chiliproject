@@ -32,6 +32,15 @@ class Watcher < ActiveRecord::Base
     end
   end
 
+  def watching_count(active)
+    if active
+      count = ActiveRecord::Base.connection.select_value(ActiveRecord::Base.send(:sanitize_sql_array, ["select count(*) from watchers w, issues i where w.watchable_type='Issue' and w.user_id = ? and i.id = w.watchable_id and i.status_id IN (1)", self.user_id]))
+    else
+      count = ActiveRecord::Base.connection.select_value(ActiveRecord::Base.send(:sanitize_sql_array, ["select count(*) from watchers where watchable_type='Issue' and user_id = ?", self.user_id]))
+    end
+    return count
+  end
+
   protected
 
   def validate
