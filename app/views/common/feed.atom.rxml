@@ -15,8 +15,15 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       else
         xml.title truncate_single_line("#{item.project} - #{item.event_title}", :length => 100)
       end
-      xml.link "rel" => "alternate", "href" => url
       xml.id url
+      xml.link "rel" => "alternate", "href" => url
+      if item.respond_to?(:custom_field_values)
+        item.custom_field_values.each do |cf|
+          if cf.custom_field_id == 1
+            xml.link "rel" => "related", "href" => cf.value
+          end
+        end
+      end
       xml.updated item.event_datetime.xmlschema
       author = item.event_author if item.respond_to?(:event_author)
       xml.author do
