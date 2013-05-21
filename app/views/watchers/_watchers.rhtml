@@ -17,7 +17,7 @@
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
-                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class, :include_groups => true),
+                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class, :include_groups => false, :in_project => @project.id),
                  :with => 'q')
                   %>
 
