@@ -134,7 +134,7 @@ en:
   general_text_Yes: 'Yes'
   general_text_no: 'no'
   general_text_yes: 'yes'
-  general_lang_name: 'English'
+  general_lang_name: 'English (WHO Adaptation)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
@@ -297,7 +297,7 @@ en:
   field_comments_sorting: Display comments
   field_parent_title: Parent page
   field_editable: Editable
-  field_watcher: Watcher
+  field_watcher: Reviewer
   field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
@@ -396,9 +396,9 @@ en:
   permission_save_queries: Save queries
   permission_view_gantt: View gantt chart
   permission_view_calendar: View calendar
-  permission_view_issue_watchers: View watchers list
-  permission_add_issue_watchers: Add watchers
-  permission_delete_issue_watchers: Delete watchers
+  permission_view_issue_watchers: View reviewers list
+  permission_add_issue_watchers: Add reviewers
+  permission_delete_issue_watchers: Delete reviewers
   permission_log_time: Log spent time
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
@@ -695,7 +695,7 @@ en:
   label_options: Options
   label_copy_workflow_from: Copy workflow from
   label_permissions_report: Permissions report
-  label_watched_issues: Watched issues
+  label_watched_issues: Reviewer for issues
   label_related_issues: Related issues
   label_applied_status: Applied status
   label_loading: Loading...
@@ -755,7 +755,7 @@ en:
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_mail_option_none: "No events"
-  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
+  label_user_mail_option_only_my_events: "Only for things I'm reviewing or I'm involved in"
   label_user_mail_option_only_assigned: "Only for things I am assigned to"
   label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
@@ -779,8 +779,8 @@ en:
   label_planning: Planning
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
-  label_issue_watchers: Watchers
-  label_document_watchers: Watchers
+  label_issue_watchers: Reviewers
+  label_document_watchers: Reviewers
   label_example: Example
   label_display: Display
   label_sort: Sort
@@ -863,8 +863,8 @@ en:
   button_sort: Sort
   button_log_time: Log time
   button_rollback: Rollback to this version
-  button_watch: Watch
-  button_unwatch: Unwatch
+  button_watch: Reviewer
+  button_unwatch: Non-reviewer
   button_reply: Reply
   button_archive: Archive
   button_unarchive: Unarchive
@@ -921,7 +921,7 @@ en:
   text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Reassign issues to this category
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you're reviewing or you're involved in (eg. issues you're the author or assignee)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset %{value}."
