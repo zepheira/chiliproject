@@ -105,6 +105,26 @@ class UsersController < ApplicationController
 
       Mailer.deliver_account_information(@user, params[:user][:password]) if params[:send_information]
 
+      target_projects = []
+      @user.visible_custom_field_values.each do |custom_value|
+        if [2,15,16,17].include? custom_value.custom_field.id && !custom_value.value.nil? && custom_value.value != ''
+          projects = Project.find(:all)
+          projects.each do |project|
+            project.visible_custom_field_values.each do |pcv|
+              if pcv.custom_field.id == 5
+                if pcv.value == custom_value.value
+                  target_projects.push project.id
+                end
+              end
+            end
+          end
+        end
+      end
+      target_projects.each do |project_id|
+        membership = Member.new(:user_id => @user.id, :project_id => project_id, :role_ids => [6])
+        membership.save
+      end
+
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
@@ -154,6 +174,29 @@ class UsersController < ApplicationController
         Mailer.deliver_account_activated(@user)
       elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
         Mailer.deliver_account_information(@user, params[:user][:password])
+      end
+
+      target_projects = []
+      @user.visible_custom_field_values.each do |custom_value|
+        if [2,15,16,17].include?(custom_value.custom_field.id) && !custom_value.value.nil? && custom_value.value != ''
+          projects = Project.find(:all)
+          projects.each do |project|
+            project.visible_custom_field_values.each do |pcv|
+              if pcv.custom_field.id == 5
+                if pcv.value == custom_value.value
+                  target_projects.push project.id
+                end
+              end
+            end
+          end
+        end
+      end
+      target_projects.each do |project_id|
+        is_member = Member.find_by_project_id_and_user_id(project_id, @user.id)
+        if !is_member
+          membership = Member.new(:user_id => @user.id, :project_id => project_id, :role_ids => [6])
+          membership.save
+        end
       end
 
       respond_to do |format|
