@@ -154,6 +154,16 @@ class IssuesController < ApplicationController
 
   def update
     update_issue_from_params
+
+    total_updates = ActiveRecord::Base.connection.select_value(ActiveRecord::Base.send(:sanitize_sql_array, ["select count(distinct user_id) from journals where notes != '' and journaled_id = ? and user_id in (select user_id from watchers where watchable_id = ? )", @issue.id, @issue.id]))
+    total_watchers = ActiveRecord::Base.connection.select_value(ActiveRecord::Base.send(:sanitize_sql_array, ["select count(*) from watchers where watchable_id = ? ", @issue.id]))
+    if total_watchers.to_i == 0
+      done = 0
+    else
+      done = (total_updates.to_f / total_watchers.to_f) * 100
+    end
+    @issue.done_ratio = done
+
     JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
