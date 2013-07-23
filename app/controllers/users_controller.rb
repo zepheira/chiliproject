@@ -107,7 +107,7 @@ class UsersController < ApplicationController
 
       target_projects = []
       @user.visible_custom_field_values.each do |custom_value|
-        if [2,15,16,17].include? custom_value.custom_field.id && !custom_value.value.nil? && custom_value.value != ''
+        if [2,15,16,17].include?(custom_value.custom_field.id) && !custom_value.value.nil? && !custom_value.value.eql?("")
           projects = Project.find(:all)
           projects.each do |project|
             project.visible_custom_field_values.each do |pcv|
@@ -178,7 +178,7 @@ class UsersController < ApplicationController
 
       target_projects = []
       @user.visible_custom_field_values.each do |custom_value|
-        if [2,15,16,17].include?(custom_value.custom_field.id) && !custom_value.value.nil? && custom_value.value != ''
+        if [2,15,16,17].include?(custom_value.custom_field.id) && !custom_value.value.nil? && !custom_value.value.eql?("")
           projects = Project.find(:all)
           projects.each do |project|
             project.visible_custom_field_values.each do |pcv|
