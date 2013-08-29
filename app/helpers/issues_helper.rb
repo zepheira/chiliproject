@@ -237,7 +237,7 @@ module IssuesHelper
                 content_tag(:label,
                             l(:label_notify_member_plural), :for => 'send_notification') +
                 hidden_field_tag('send_notification', '0', :id => nil) +
-                check_box_tag('send_notification', '1', false))
+                check_box_tag('send_notification', '1', true))
 
 
   end
