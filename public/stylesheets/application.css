@@ -4365,3 +4365,7 @@ div.progress .done {
 div.progress .done {
   background: #DEF0DE;
 }
+
+.controller-users .tab-content input[type=text] {
+  width: 30em;
+}
