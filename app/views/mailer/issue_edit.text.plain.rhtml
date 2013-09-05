@@ -1,9 +1,28 @@
-<%= l(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+Dear <%= %>,
 
-<% for detail in @journal.details -%>
-<%= @journal.render_detail(detail, true) %>
-<% end -%>
+One of your fellow reviewers has completed their review on <%= @issue.subject %>!
 
-<%= @journal.notes if @journal.notes? %>
-----------------------------------------
-<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 38 %>
+<%= show_value(c) %>
+<%   end
+   end %>
+
+If you have not already completed your review, or you would like to see what they have said, please follow the link to the Review Platform:
+
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 %>
+<%= show_value(c) %>
+<%   end
+   end %>
+
+If you have questions about the review process or what to do, please see our Frequently Asked Questions (FAQs):
+
+http://www.who.int/classifications/icd/icdreviewerfaqs/en/index.html
+
+If you are unable to accept this assignment, or you have any other questions, please contact us at ICD11review@who.int.
+
+Thank you for your contributions to the WHO ICD-11 Revision Process Review!
+
+Sincerely,
+Dr M. Meri Robinson Nicol
