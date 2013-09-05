@@ -54,8 +54,9 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_edit(journal, 'user@example.com') => tmail object
   #   Mailer.deliver_issue_edit(journal, 'user@example.com') => sends an email to issue recipients
-  def issue_edit(journal, recipient, recipient_name)
+  def issue_edit(journal, recipient)
     issue = journal.journaled.reload
+    u = User.find_by_mail(recipient)
     message_id journal
     references issue
     @author = journal.user
@@ -64,8 +65,7 @@ class Mailer < ActionMailer::Base
     subject s
     body :issue => issue,
          :journal => journal,
-         :recipient => recipient_name,
-         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+         :recipient => u.name
 
     render_multipart('issue_edit', body)
   end
