@@ -54,23 +54,17 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_edit(journal, 'user@example.com') => tmail object
   #   Mailer.deliver_issue_edit(journal, 'user@example.com') => sends an email to issue recipients
-  def issue_edit(journal, recipient)
+  def issue_edit(journal, recipient, recipient_name)
     issue = journal.journaled.reload
-    redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login,
-                    'Type' => "Issue"
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id journal
     references issue
     @author = journal.user
     recipients [recipient]
-    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "(#{issue.status.name}) " if journal.details['status_id']
-    s << issue.subject
+    s = issue.subject
     subject s
     body :issue => issue,
          :journal => journal,
+         :recipient => recipient_name,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
 
     render_multipart('issue_edit', body)
@@ -408,10 +402,7 @@ class Mailer < ActionMailer::Base
     from Setting.mail_from
 
     # Common headers
-    headers 'X-Mailer' => 'ChiliProject',
-            'X-ChiliProject-Host' => Setting.host_name,
-            'X-ChiliProject-Site' => Setting.app_title,
-            'Precedence' => 'bulk',
+    headers 'Precedence' => 'bulk',
             'Auto-Submitted' => 'auto-generated'
   end
 
