@@ -107,7 +107,9 @@ module IssuesHelper
     n = 0
     ordered_values.compact.each do |value|
       s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      if value.custom_field_id == 1 || value.custom_field_id == 37
+      if value.custom_field_id == 1
+        s << "\t<th>#{ h(value.custom_field.name) }:</th><td><a href=\"#{ h(show_value(value)) }\">#{ simple_format_without_paragraph(h(show_value(value))) }</a> (<a href="/issues?set_filter=1&f[]=cf_1&op[cf_1]=%3D&v[cf_1][]=#{ h(show_value(value)) }">related</a>)</td>\n"
+      elsif value.custom_field_id == 37
         s << "\t<th>#{ h(value.custom_field.name) }:</th><td><a href=\"#{ h(show_value(value)) }\">#{ simple_format_without_paragraph(h(show_value(value))) }</a></td>\n"
       else
         s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
