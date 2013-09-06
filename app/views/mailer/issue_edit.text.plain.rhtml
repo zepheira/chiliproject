@@ -1,20 +1,30 @@
 Dear <%= @recipient %>,
 
-One of your fellow reviewers has completed their review on <%= @issue.subject %>!
+<% unless @custom.nil? || @custom.empty? %>
+<%= @custom %>
+<% end %>
 
-<% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 38 %>
-<%= show_value(c) %>
-<%   end
-   end %>
+<% if @initial %>
+An item, <%= @issue.subject %>, has been assigned to you for review!
 
-If you have not already completed your review, or you would like to see what they have said, please follow the link to the Review Platform:
+To complete your review, please follow the link to the Review Platform:
 
 <% @issue.custom_field_values.each do |c|
      if c.custom_field_id == 37 %>
 <%= show_value(c) %>
 <%   end
    end %>
+<% else %>
+One of your fellow reviewers has completed their review on <%= @issue.subject %>!
+
+If you have not already completed your review, or you would like to see what they have said, please follow the link to the Review Platform: 
+
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 %>
+<%= show_value(c) %>
+<%   end
+   end %>
+<% end %>
 
 If you have questions about the review process or what to do, please see our Frequently Asked Questions (FAQs):
 
