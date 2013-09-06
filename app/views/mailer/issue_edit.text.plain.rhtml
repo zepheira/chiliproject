@@ -1,31 +1,29 @@
 Dear <%= @recipient %>,
+<% unless @custom.nil? || @custom.empty? -%>
 
-<% unless @custom.nil? || @custom.empty? %>
 <%= @custom %>
-<% end %>
 
-<% if @initial %>
+<% end %>
+<% if @initial -%>
 An item, <%= @issue.subject %>, has been assigned to you for review!
 
 To complete your review, please follow the link to the Review Platform:
-
 <% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 %>
+     if c.custom_field_id == 37 -%>
 <%= show_value(c) %>
 <%   end
-   end %>
-<% else %>
+   end -%>
+<% else -%>
 One of your fellow reviewers has completed their review on <%= @issue.subject %>!
 
 If you have not already completed your review, or you would like to see what they have said, please follow the link to the Review Platform: 
 
 <% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 %>
+     if c.custom_field_id == 37 -%>
 <%= show_value(c) %>
 <%   end
-   end %>
-<% end %>
-
+   end -%>
+<% end -%>
 If you have questions about the review process or what to do, please see our Frequently Asked Questions (FAQs):
 
 http://www.who.int/classifications/icd/icdreviewerfaqs/en/index.html
