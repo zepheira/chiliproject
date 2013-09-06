@@ -14,6 +14,8 @@
 
 class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
+  attr_accessor :send_as_initial
+  attr_accessor :custom_message
 
   def after_create(journal)
     case journal.type
@@ -50,6 +52,7 @@ class JournalObserver < ActiveRecord::Observer
       issue = journal.issue
       (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
         Mailer.deliver_issue_edit(journal, recipient)
+        # @@@ pass on send_as_initial
       end
     end
   end
@@ -58,6 +61,11 @@ class JournalObserver < ActiveRecord::Observer
   def send_notification
     return true if @send_notification.nil?
     return @send_notification
+  end
+
+  def send_as_initial
+    return false if @send_as_initial.nil?
+    return @send_as_initial
   end
 
   private

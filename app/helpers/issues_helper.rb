@@ -243,4 +243,14 @@ module IssuesHelper
 
 
   end
+
+  def send_as_initial_option
+    content_tag(:p,
+                content_tag(:label,
+                            l(:label_send_as_initial), :for => 'send_as_initial') +
+                hidden_field_tag('send_as_initial', '0', :id => nil) +
+                check_box_tag('send_as_initial', '1', false))
+
+
+  end
 end

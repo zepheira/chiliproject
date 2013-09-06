@@ -165,6 +165,7 @@ class IssuesController < ApplicationController
     @issue.done_ratio = done
 
     JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+    JournalObserver.instance.send_as_initial = params[:send_as_initial] == '0' ? false : true
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
@@ -205,6 +206,7 @@ class IssuesController < ApplicationController
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+      JournalObserver.instance.send_as_initial = params[:send_as_initial] == '0' ? false : true
       unless issue.save
         # Keep unsaved issue ids to display them in flash error
         unsaved_issue_ids << issue.id

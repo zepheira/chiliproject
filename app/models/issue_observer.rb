@@ -14,6 +14,7 @@
 
 class IssueObserver < ActiveRecord::Observer
   attr_accessor :send_notification
+  attr_accessor :send_as_initial
 
   def after_create(issue)
     if self.send_notification
@@ -28,6 +29,11 @@ class IssueObserver < ActiveRecord::Observer
   def send_notification
     return true if @send_notification.nil?
     return @send_notification
+  end
+
+  def send_as_initial
+    return false if @send_as_initial.nil?
+    return @send_as_initial
   end
 
   private
