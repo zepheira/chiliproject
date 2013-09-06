@@ -119,7 +119,7 @@ class IssuesController < ApplicationController
   def create
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
     IssueObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
-    IssueObserver.instance.send_as_initial = params[:send_as_initial] == '0' ? false : true
+    IssueObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
     IssueObserver.instance.custom_message = params[:custom_message]
     if @issue.save
       attachments = Attachment.attach_files(@issue, params[:attachments])
@@ -167,7 +167,7 @@ class IssuesController < ApplicationController
     @issue.done_ratio = done
 
     JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
-    JournalObserver.instance.send_as_initial = params[:send_as_initial] == '0' ? false : true
+    JournalObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
     JournalObserver.instance.custom_message = params[:custom_message]
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
@@ -209,7 +209,7 @@ class IssuesController < ApplicationController
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
-      JournalObserver.instance.send_as_initial = params[:send_as_initial] == '0' ? false : true
+      JournalObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
       JournalObserver.instance.custom_message = params[:custom_message]
       unless issue.save
         # Keep unsaved issue ids to display them in flash error
