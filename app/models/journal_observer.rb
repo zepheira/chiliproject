@@ -52,7 +52,7 @@ class JournalObserver < ActiveRecord::Observer
       issue = journal.issue
       (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
         Mailer.deliver_issue_edit(journal, recipient)
-        # @@@ pass on send_as_initial
+        # @@@ incorporate send_as_initial, custom_message
       end
     end
   end
@@ -66,6 +66,11 @@ class JournalObserver < ActiveRecord::Observer
   def send_as_initial
     return false if @send_as_initial.nil?
     return @send_as_initial
+  end
+
+  def custom_message
+    return "" if @custom_message.nil?
+    return @custom_message
   end
 
   private
