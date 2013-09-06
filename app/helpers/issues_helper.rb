@@ -258,6 +258,6 @@ module IssuesHelper
     content_tag(:fieldset,
                 content_tag(:legend,
                             l(:label_custom_message)) +
-                text_area_tag('custom_message', :cols => 60, :rows => 10))
+                text_area_tag('custom_message', '', :cols => 60, :rows => 10))
   end
 end
