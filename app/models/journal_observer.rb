@@ -42,6 +42,8 @@ class JournalObserver < ActiveRecord::Observer
       end
     end
     clear_notification
+    clear_initial
+    clear_custom
   end
 
   def after_create_issue_journal(journal)
@@ -77,6 +79,14 @@ class JournalObserver < ActiveRecord::Observer
   # Need to clear the notification setting after each usage otherwise it might be cached
   def clear_notification
     @send_notification = true
+  end
+
+  def clear_initial
+    @send_as_initial = false
+  end
+
+  def clear_custom
+    @custom_message = ""
   end
 
 end
