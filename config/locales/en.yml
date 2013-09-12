@@ -825,6 +825,7 @@ en:
   label_notify_member_plural: Email issue updates
   label_send_as_initial: Send initial invitation to reviewers
   label_custom_message: Prepend custom message to reviewers
+  label_gather_children_urls: Gather child issue URLs
   label_path_encoding: Path encoding
   label_deleted_custom_field: '(deleted custom field)'
   label_toc: "Contents"
