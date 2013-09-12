@@ -19,12 +19,15 @@ Gatherer.fill = function(data) {
     for (i = 0; i < data.length; i++) {
         str += data[i] + "\n";
     }
-    dest = document.getElementsById("custom_message");
+    dest = document.getElementById("custom_message");
     dest.value = dest.value + str;
     if (Gatherer.cache === null) {
         Gatherer.cache = data;
     }
-    Gatherer.scr.parentNode.removeChild(Gatherer.scr);
+    if (Gatherer.scr !== null) {
+        Gatherer.scr.parentNode.removeChild(Gatherer.scr);
+        Gatherer.scr = null;
+    }
 };
 
 Gatherer.start = function() {
