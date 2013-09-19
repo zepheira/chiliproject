@@ -4,12 +4,14 @@ DueDateSet = {
 };
 
 /**
- * If setting to Under Review
+ * If setting to Under Review, set start date to today and due date to
+ * three weeks in the future.
  */
 DueDateSet.set = function() {
     var now, duedate;
-    now = new Date().valueOf();
-    duedate = new Date(now + DueDateSet.FUTURE);
+    now = new Date();
+    duedate = new Date(now.valueOf() + DueDateSet.FUTURE);
+    jQuery("#issue_start_date").val(now.toISOString().substr(0, 10));
     jQuery("#issue_due_date").val(duedate.toISOString().substr(0, 10));
 };
 
