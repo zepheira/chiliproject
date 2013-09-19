@@ -1,5 +1,10 @@
 <p>Dear <%= @recipient %>,</p>
 
+<% if @show_admin %>
+<h2>Administrators</h2>
+<%= render :partial => "issue_text_html", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<% end %>
+
 <% unless @custom.nil? || @custom.empty? %>
 <div class="custom"><%= @custom %></div>
 <% end %>
