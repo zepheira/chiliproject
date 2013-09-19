@@ -1,10 +1,9 @@
 Dear <%= @recipient %>,
 <% unless @custom.nil? || @custom.empty? -%>
 
-<% if @show_admin %>
-Administrators:
-<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>
-<% end %>
+<% if @show_admin -%>
+Administrators: Issue #<%= @issue.id %>: <%= @issue_url %>
+<% end -%>
 
 <%= @custom %>
 
