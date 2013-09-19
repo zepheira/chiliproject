@@ -1,8 +1,9 @@
 Dear <%= @recipient %>,
 <% if @show_admin -%>
-Administrators: Issue #<%= @issue.id %>: <%= @issue_url %>
-<% end -%>
 
+Administrators: Issue #<%= @issue.id %>: <%= @issue_url %>
+
+<% end -%>
 <% unless @custom.nil? || @custom.empty? -%>
 
 <%= @custom %>
