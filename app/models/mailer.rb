@@ -61,8 +61,7 @@ class Mailer < ActionMailer::Base
     references issue
     @author = journal.user
     recipients [recipient]
-    s = issue.subject
-    subject s
+    subject "WHO ICD Review: #{issue.subject}"
     body :issue => issue,
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue),
