@@ -15,10 +15,11 @@ Gatherer.get = function() {
 
 Gatherer.fill = function(data) {
     var i, str, dest;
-    str = "";
+    str = "<ul>\n";
     for (i = 0; i < data.length; i++) {
-        str += data[i] + "\n";
+        str += '<li><a href="' + data[i].uri + '">' + data[i].subject + "</a></li>\n";
     }
+    str += "</ul>\n";
     dest = document.getElementById("custom_message");
     dest.value = dest.value + str;
     if (Gatherer.cache === null) {
