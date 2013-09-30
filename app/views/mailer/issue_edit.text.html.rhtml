@@ -23,9 +23,9 @@
    end %>
 </p>
 <% else %>
-<p>One of your fellow reviewers has completed their review on <strong><%= @issue.subject %></strong>!</p>
+<p>There is new activity on <strong><%= @issue.subject %></strong>!</p>
 
-<p>If you have not already completed your review, or you would like to see what they have said, please follow the link to the
+<p>If you have not already completed your review, you would like to see what your fellow reviewers have said, or you are a new reviewer joining on this topic, please follow the link to the
 
 <% @issue.custom_field_values.each do |c|
      if c.custom_field_id == 37 %>
@@ -43,4 +43,3 @@
 
 <p>Sincerely,</p>
 <p>Dr M. Meri Robinson Nicol</p>
-

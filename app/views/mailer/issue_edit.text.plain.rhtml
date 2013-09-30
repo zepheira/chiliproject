@@ -19,9 +19,9 @@ To complete your review, please follow the link to the Review Platform:
 <%   end
    end -%>
 <% else -%>
-One of your fellow reviewers has completed their review on <%= @issue.subject %>!
+There is new activity on <%= @issue.subject %>!
 
-If you have not already completed your review, or you would like to see what they have said, please follow the link to the Review Platform: 
+If you have not already completed your review, you would like to see what your fellow reviewers have said, or you are a new reviewer joining on this topic, please follow the link to the Review Platform: 
 
 <% @issue.custom_field_values.each do |c|
      if c.custom_field_id == 37 -%>
