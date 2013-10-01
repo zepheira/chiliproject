@@ -4,27 +4,27 @@ Dear <%= @recipient %>,
 Administrators: Issue #<%= @issue.id %>: <%= @issue_url %>
 
 <% end -%>
-<% unless @custom.nil? || @custom.empty? -%>
+<% unless @custom_txt.nil? || @custom_txt.empty? -%>
 
-<%= @custom %>
+<%= @custom_txt %>
 
 <% end %>
 <% if @initial -%>
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 -%>
 An item, <%= @issue.subject %>, has been assigned to you for review!
 
 To complete your review, please follow the link to the Review Platform:
-<% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 -%>
 <%= show_value(c) %>
 <%   end
    end -%>
 <% else -%>
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 -%>
 There is new activity on <%= @issue.subject %>!
 
 If you have not already completed your review, you would like to see what your fellow reviewers have said, or you are a new reviewer joining on this topic, please follow the link to the Review Platform: 
 
-<% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 -%>
 <%= show_value(c) %>
 <%   end
    end -%>

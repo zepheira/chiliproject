@@ -66,6 +66,7 @@ class Mailer < ActionMailer::Base
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue),
          :custom => custom,
+         :custom_txt => convert_to_text(custom),
          :initial => initial,
          :recipient => u.name,
          :show_admin => u.groups.exists?(11)
@@ -462,6 +463,50 @@ class Mailer < ActionMailer::Base
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.chiliproject" if host.empty?
     "<#{hash}@#{host}>"
+  end
+
+  # Convert HTML to text, with links and lists
+  # Derived from https://github.com/alexdunae/premailer/blob/master/lib/premailer/html_to_plain_text.rb
+  # Licensed under new BSD; see repository in link for full license.
+  def word_wrap(txt, line_length)
+    txt.split("\n").collect do |line|
+      line.length > line_length ? line.gsub(/(.{1,#{line_length}})(\s+|$)/, "\\1\n").strip : line
+    end * "\n"
+  end
+
+  def convert_to_text(html)
+    txt = html
+    txt.gsub!(/<a.+?href=\"([^\"]*)\"[^>]*>(.+?)<\/a>/i) do |s|
+      $2.strip + ' ( ' + $1.strip + ' )'
+    end
+
+    txt.gsub!(/<a.+?href='([^\']*)\'[^>]*>(.+?)<\/a>/i) do |s|
+      $2.strip + ' ( ' + $1.strip + ' )'
+    end
+
+    txt.gsub!(/[\s]*(<li[^>]*>)[\s]*/i, '* ')
+    txt.gsub!(/<\/li>[\s]*(?![\n])/i, "\n")
+
+    txt.gsub!(/<\/p>/i, "\n\n")
+    txt.gsub!(/<br[\/ ]*>/i, "\n")
+
+    txt.gsub!(/<\/?[^>]*>/, '')
+
+    txt = word_wrap(txt, 65)
+
+    txt.gsub!(/\302\240+/, " ")
+    txt.gsub!(/\n[ \t]+/, "\n")
+    txt.gsub!(/[ \t]+\n/, "\n")
+
+    txt.gsub!(/[\n]{3,}/, "\n\n")
+
+    txt.gsub!(/ {2,}/, " ")
+    
+    txt.gsub!(/\([ \n](http[^)]+)[\n ]\)/) do |s|
+      "( " + $1 + " )"
+    end
+
+    txt.strip
   end
 
   private

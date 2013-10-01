@@ -12,27 +12,21 @@
 <% end %>
 
 <% if @initial %>
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 %>
 <p>An item, <strong><%= @issue.subject %></strong>, has been assigned to you for review!</p>
 
-<p>To complete your review, please follow the link to the
-
-<% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 %>
-<a href="<%= c.value %>">Review Platform</a>.
+<p>To complete your review, please follow the link to the <a href="<%= c.value %>">Review Platform</a>.</p>
 <%   end
    end %>
-</p>
 <% else %>
+<% @issue.custom_field_values.each do |c|
+     if c.custom_field_id == 37 %>
 <p>There is new activity on <strong><%= @issue.subject %></strong>!</p>
 
-<p>If you have not already completed your review, you would like to see what your fellow reviewers have said, or you are a new reviewer joining on this topic, please follow the link to the
-
-<% @issue.custom_field_values.each do |c|
-     if c.custom_field_id == 37 %>
-<a href="<%= c.value %>">Review Platform</a>.
+<p>If you have not already completed your review, you would like to see what your fellow reviewers have said, or you are a new reviewer joining on this topic, please follow the link to the <a href="<%= c.value %>">Review Platform</a>.</p>
 <%   end
    end %>
-</p>
 <% end %>
 
 <p>If you have questions about the review process or what to do, please see our <a href="http://www.who.int/classifications/icd/icdreviewerfaqs/en/index.html">Frequently Asked Questions (FAQs)</a>.
