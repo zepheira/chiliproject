@@ -57,6 +57,7 @@ class Mailer < ActionMailer::Base
   def issue_edit(journal, recipient, custom, initial)
     issue = journal.journaled.reload
     u = User.find_by_mail(recipient)
+    custom_txt = custom.dup
     message_id journal
     references issue
     @author = journal.user
@@ -66,7 +67,7 @@ class Mailer < ActionMailer::Base
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue),
          :custom => custom,
-         :custom_txt => convert_to_text(custom),
+         :custom_txt => convert_to_text(custom_txt),
          :initial => initial,
          :recipient => u.name,
          :show_admin => u.groups.exists?(11)
