@@ -56,7 +56,7 @@ class AutoCompletesController < ApplicationController
       user_finder = User
     end
 
-    if !params[:include_groups] && params[:in_project].present?
+    if params[:in_project].present?
       @users = user_finder.active.like(params[:q]).find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", params[:in_project]], :limit => 100) - @removed_users
     else
       @users = user_finder.active.like(params[:q]).find(:all, :limit => 100) - @removed_users

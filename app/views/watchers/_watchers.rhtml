@@ -12,17 +12,17 @@
          	                    :object_id => watched},
        	             :method => :post,
       	             :html => {:id => 'new-watcher-form', :style => 'display:none;'}) do |f| %>
-    <% users = @project.users.sort - watched.watcher_users %>
+    <% users = (Principal.active.find(:all) - watched.watcher_users) & (Group.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", @project.id]) + @project.users) %>
 		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil, :style => "width:98%;" %></p>
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
-                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class, :include_groups => false, :in_project => @project.id),
+                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class, :include_groups => true, :in_project => @project.id),
                  :with => 'q')
                   %>
 
 		<div id="users">
-        <% users.each do |u| -%>
+        <% users.sort.each do |u| -%>
           <label style="display: block;"><%= check_box_tag 'user_ids[]', u.id, false %> <%= h u %>
           <% w = Watcher.find(:first, :conditions => ["user_id = ?", u.id])
              if w.respond_to?("watching_count") -%>
