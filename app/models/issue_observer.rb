@@ -15,12 +15,13 @@
 class IssueObserver < ActiveRecord::Observer
   attr_accessor :send_notification
   attr_accessor :send_as_initial
+  attr_accessor :send_without_default_block
   attr_accessor :custom_message
 
   def after_create(issue)
     if self.send_notification
       (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
-        Mailer.deliver_issue_add(issue, recipient, custom_message, send_as_initial)
+        Mailer.deliver_issue_add(issue, recipient, custom_message, send_as_initial, send_without_default_block)
       end
     end
     clear_notification
@@ -35,6 +36,11 @@ class IssueObserver < ActiveRecord::Observer
   def send_as_initial
     return false if @send_as_initial.nil?
     return @send_as_initial
+  end
+
+  def send_without_default_block
+    return false if @send_without_default_block.nil?
+    return @send_without_default_block
   end
 
   def custom_message

@@ -254,6 +254,16 @@ module IssuesHelper
 
   end
 
+  def send_without_default_block_option
+    content_tag(:p,
+                content_tag(:label,
+                            l(:label_send_without_default_block), :for => 'send_without_default_block') +
+                hidden_field_tag('send_without_default_block', '0', :id => nil) +
+                check_box_tag('send_without_default_block', '1', false))
+
+
+  end
+
   def custom_message_option
     content_tag(:fieldset,
                 content_tag(:legend,

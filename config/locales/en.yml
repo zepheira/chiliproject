@@ -824,6 +824,7 @@ en:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_notify_member_plural: Email issue updates
   label_send_as_initial: Send initial invitation to reviewers
+  label_send_without_default_block: Use only custom message, do not send boilerplate aside from greeting and sign off
   label_custom_message: Prepend custom message to reviewers
   label_gather_children_urls: Gather child issue URLs
   label_path_encoding: Path encoding

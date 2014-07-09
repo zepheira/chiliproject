@@ -9,6 +9,7 @@ Administrators: Issue #<%= @issue.id %>: <%= @issue_url %>
 <%= @custom_txt %>
 
 <% end %>
+<% unless @without_default %>
 <% if @initial -%>
 <% @issue.custom_field_values.each do |c|
      if c.custom_field_id == 37 -%>
@@ -37,6 +38,7 @@ http://www.who.int/classifications/icd/icdreviewerfaqs/en/index.html
 If you are unable to accept this assignment, or you have any other questions, please contact us at ICD11review@who.int.
 
 Thank you for your contributions to the WHO ICD-11 Revision Process Review!
+<% end %>
 
 Sincerely,
 <% if @issue.project_id == 29 -%>

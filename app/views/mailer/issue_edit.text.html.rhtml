@@ -11,6 +11,7 @@
 <div class="custom"><%= @custom %></div>
 <% end %>
 
+<% unless @without_default %>
 <% if @initial %>
 <% @issue.custom_field_values.each do |c|
      if c.custom_field_id == 37 %>
@@ -34,6 +35,7 @@
 <p>If you are unable to accept this assignment, or you have any other questions, please contact us at <a href="mailto:ICD11review@who.int">ICD11review@who.int</a>.</p>
 
 <p>Thank you for your contributions to the WHO ICD-11 Revision Process Review!</p>
+<% end %>
 
 <p>Sincerely,</p>
 <% if @issue.project_id == 29 -%>

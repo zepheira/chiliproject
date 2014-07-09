@@ -35,7 +35,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_add(issue, 'user@example.com') => tmail object
   #   Mailer.deliver_issue_add(issue, 'user@example.com') => sends an email to 'user@example.com'
-  def issue_add(issue, recipient, custom, initial)
+  def issue_add(issue, recipient, custom, initial, without_default)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
@@ -54,7 +54,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_edit(journal, 'user@example.com') => tmail object
   #   Mailer.deliver_issue_edit(journal, 'user@example.com') => sends an email to issue recipients
-  def issue_edit(journal, recipient, custom, initial)
+  def issue_edit(journal, recipient, custom, initial, without_default)
     issue = journal.journaled.reload
     u = User.find_by_mail(recipient)
     custom_txt = custom.dup
@@ -67,6 +67,7 @@ class Mailer < ActionMailer::Base
          :journal => journal,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue),
          :custom => custom,
+         :without_default => without_default,
          :custom_txt => convert_to_text(custom_txt),
          :initial => initial,
          :recipient => u.name,

@@ -15,6 +15,7 @@
 class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
   attr_accessor :send_as_initial
+  attr_accessor :send_without_default_block
   attr_accessor :custom_message
 
   def after_create(journal)
@@ -43,6 +44,7 @@ class JournalObserver < ActiveRecord::Observer
     end
     clear_notification
     clear_initial
+    clear_without_default_block
     clear_custom
   end
 
@@ -53,7 +55,7 @@ class JournalObserver < ActiveRecord::Observer
         (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
       issue = journal.issue
       (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
-        Mailer.deliver_issue_edit(journal, recipient, custom_message, send_as_initial)
+        Mailer.deliver_issue_edit(journal, recipient, custom_message, send_as_initial, send_without_default_block)
       end
     end
   end
@@ -67,6 +69,11 @@ class JournalObserver < ActiveRecord::Observer
   def send_as_initial
     return false if @send_as_initial.nil?
     return @send_as_initial
+  end
+
+  def send_without_default_block
+    return false if @send_without_default_block.nil?
+    return @send_without_default_block
   end
 
   def custom_message
@@ -83,6 +90,10 @@ class JournalObserver < ActiveRecord::Observer
 
   def clear_initial
     @send_as_initial = false
+  end
+
+  def clear_without_default_block
+    @send_without_default_block = false
   end
 
   def clear_custom
