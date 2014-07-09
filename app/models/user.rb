@@ -167,7 +167,7 @@ class User < Principal
     if formatter
       n = eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
     else
-      n ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
+      n = eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
     end
     # Prepend salutation; assumes firstname lastname
     self.visible_custom_field_values.each do |custom_value|
@@ -176,7 +176,7 @@ class User < Principal
         break
       end
     end
-    n
+    @name ||= n
   end
 
   def active?
