@@ -165,10 +165,18 @@ class User < Principal
   # Return user's full name for display
   def name(formatter = nil)
     if formatter
-      eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
+      n = eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
     else
-      @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
+      n ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
     end
+    # Prepend salutation; assumes firstname lastname
+    self.visible_custom_field_values.each do |custom_value|
+      if custom_value.custom_field.id == 3 && !custom_value.value.nil? && !custom_value.value.eql?("")
+        n = "#{custom_value.value} #{n}"
+        break
+      end
+    end
+    n
   end
 
   def active?
