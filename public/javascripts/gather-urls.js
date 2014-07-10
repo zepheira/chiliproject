@@ -20,7 +20,7 @@ Gatherer.fill = function(data) {
         str += '<li><a href="' + data[i].uri + '">' + data[i].subject + "</a></li>\n";
     }
     str += "</ul>\n";
-    dest = document.getElementById("custom_message");
+    dest = document.getElementById("custom_message_suffix");
     dest.value = dest.value + str;
     if (Gatherer.cache === null) {
         Gatherer.cache = data;

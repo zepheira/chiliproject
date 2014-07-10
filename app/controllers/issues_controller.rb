@@ -122,6 +122,7 @@ class IssuesController < ApplicationController
     IssueObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
     IssueObserver.instance.send_without_default_block = (params[:send_without_default_block].nil? || params[:send_without_default_block] == '0') ? false : true
     IssueObserver.instance.custom_message = params[:custom_message]
+    IssueObserver.instance.custom_message_suffix = params[:custom_message_suffix]
     if @issue.save
       attachments = Attachment.attach_files(@issue, params[:attachments])
       render_attachment_warning_if_needed(@issue)
@@ -171,6 +172,7 @@ class IssuesController < ApplicationController
     JournalObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
     JournalObserver.instance.send_without_default_block = (params[:send_without_default_block].nil? || params[:send_without_default_block] == '0') ? false : true
     JournalObserver.instance.custom_message = params[:custom_message]
+    JournalObserver.instance.custom_message_suffix = params[:custom_message_suffix]
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
@@ -214,6 +216,7 @@ class IssuesController < ApplicationController
       JournalObserver.instance.send_as_initial = (params[:send_as_initial].nil? || params[:send_as_initial] == '0') ? false : true
       JournalObserver.instance.send_without_default_block = (params[:send_without_default_block].nil? || params[:send_without_default_block] == '0') ? false : true
       JournalObserver.instance.custom_message = params[:custom_message]
+      JournalObserver.instance.custom_message_suffix = params[:custom_message_suffix]
       unless issue.save
         # Keep unsaved issue ids to display them in flash error
         unsaved_issue_ids << issue.id

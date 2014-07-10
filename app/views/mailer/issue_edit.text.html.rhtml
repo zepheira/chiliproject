@@ -37,6 +37,10 @@
 <p>Thank you for your contributions to the WHO ICD-11 Revision Process Review!</p>
 <% end %>
 
+<% unless @custom_suffix.nil? || @custom_suffix.empty? %>
+<div class="custom"><%= @custom_suffix %></div>
+<% end %>
+
 <p>Sincerely,</p>
 <% if @issue.project_id == 29 -%>
 <p>Nenad Kostanjsek</p>

@@ -17,6 +17,7 @@ class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_as_initial
   attr_accessor :send_without_default_block
   attr_accessor :custom_message
+  attr_accessor :custom_message_suffix
 
   def after_create(journal)
     case journal.type
@@ -46,6 +47,7 @@ class JournalObserver < ActiveRecord::Observer
     clear_initial
     clear_without_default_block
     clear_custom
+    clear_custom_suffix
   end
 
   def after_create_issue_journal(journal)
@@ -55,7 +57,7 @@ class JournalObserver < ActiveRecord::Observer
         (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
       issue = journal.issue
       (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
-        Mailer.deliver_issue_edit(journal, recipient, custom_message, send_as_initial, send_without_default_block)
+        Mailer.deliver_issue_edit(journal, recipient, custom_message, custom_message_suffix, send_as_initial, send_without_default_block)
       end
     end
   end
@@ -81,6 +83,11 @@ class JournalObserver < ActiveRecord::Observer
     return @custom_message
   end
 
+  def custom_message_suffix
+    return "" if @custom_message_suffix.nil?
+    return @custom_message_suffix
+  end
+
   private
 
   # Need to clear the notification setting after each usage otherwise it might be cached
@@ -98,6 +105,10 @@ class JournalObserver < ActiveRecord::Observer
 
   def clear_custom
     @custom_message = ""
+  end
+
+  def clear_custom_suffix
+    @custom_message_suffix = ""
   end
 
 end

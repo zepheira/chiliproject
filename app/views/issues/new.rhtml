@@ -5,6 +5,7 @@
     <%= error_messages_for 'issue' %>
     <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    <%= custom_message_suffix_option %>
     <%= custom_message_option %>
     <%= send_notification_option %>
     <%= send_as_initial_option %>
